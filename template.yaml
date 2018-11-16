@@ -68,14 +68,15 @@ Resources:
     Type: AWS::ECS::TaskDefinition
     Properties:
       ContainerDefinitions:
-        - Image: hello-world
+        - Image: ward/latest
           LogConfiguration:
             LogDriver: awslogs
             Options:
               awslogs-group: !Ref dockerTask47AD99FELogGroup
               awslogs-region: !Ref AWS::Region
-              awslogs-stream-prefix: hello-world
+              awslogs-stream-prefix: ward-latest
           Name: 0
+          Environment: []
       Cpu: 1024
       ExecutionRoleArn: !GetAtt dockerTask47AD99FEExecutionRole.Arn
       Memory: 2048
@@ -88,7 +89,7 @@ Resources:
   dockerTask47AD99FELogGroup:
     Type: AWS::Logs::LogGroup
     Properties:
-      LogGroupName: !Sub /stackery/task/${AWS::StackName}-dockerTask47AD99FE/hello-world
+      LogGroupName: !Sub /stackery/task/${AWS::StackName}-dockerTask47AD99FE/ward-latest
   dockerTask47AD99FEExecutionRole:
     Type: AWS::IAM::Role
     Properties:
