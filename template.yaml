@@ -68,7 +68,7 @@ Resources:
     Type: AWS::ECS::TaskDefinition
     Properties:
       ContainerDefinitions:
-        - Image: ward/latest
+        - Image: ward
           LogConfiguration:
             LogDriver: awslogs
             Options:
