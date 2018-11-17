@@ -39,7 +39,7 @@ Resources:
             - !Ref DefaultVPCSubnets
           DOCKER_TASK_ARN: !Ref dockerTask47AD99FE
       Events:
-        api2E0CD11EGET/start:
+        api2E0CD11EGETstart:
           Type: Api
           Properties:
             Path: /start
@@ -162,7 +162,7 @@ Resources:
             - ','
             - !Ref DefaultVPCSubnets
       Events:
-        api2E0CD11EGET/stop:
+        api2E0CD11EGETstop:
           Type: Api
           Properties:
             Path: /stop
