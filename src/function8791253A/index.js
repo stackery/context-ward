@@ -7,7 +7,7 @@ exports.handler = async message => {
     cluster: 'default',
     networkConfiguration: {
       awsvpcConfiguration: {
-        subnets: JSON.parse(process.env.DOCKER_TASK_SUBNETS)
+        subnets: process.env.DOCKER_TASK_SUBNETS.split(',')
       }
     },
     taskDefinition: process.env.DOCKER_TASK_ARN
