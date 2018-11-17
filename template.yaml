@@ -1,32 +1,6 @@
 AWSTemplateFormatVersion: 2010-09-09
 Transform: AWS::Serverless-2016-10-31
 Resources:
-  api5FDABD79:
-    Type: AWS::Serverless::Api
-    Properties:
-      Name: !Sub
-        - ${ResourceName} From Stackery Stack ${StackeryStackTagName} Environment ${StackeryEnvironmentTagName}
-        - ResourceName: api5FDABD79
-      StageName: !Ref StackeryEnvironmentAPIGatewayStageName
-      DefinitionBody:
-        swagger: '2.0'
-        info: {}
-        paths:
-          /start:
-            get:
-              x-amazon-apigateway-integration:
-                httpMethod: POST
-                type: aws_proxy
-                uri: !Sub arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${function8791253A.Arn}/invocations
-              responses: {}
-          /stop:
-            get:
-              x-amazon-apigateway-integration:
-                httpMethod: POST
-                type: aws_proxy
-                uri: !Sub arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${function47E33BAD.Arn}/invocations
-              responses: {}
-      EndpointConfiguration: REGIONAL
   function8791253A:
     Type: AWS::Serverless::Function
     Properties:
@@ -65,12 +39,12 @@ Resources:
             - !Ref DefaultVPCSubnets
           DOCKER_TASK_ARN: !Ref dockerTask47AD99FE
       Events:
-        api5FDABD79GET/start:
+        api2E0CD11EGET/start:
           Type: Api
           Properties:
             Path: /start
             Method: GET
-            RestApiId: !Ref api5FDABD79
+            RestApiId: !Ref api2E0CD11E
     Metadata:
       StackeryName: startNeo4j
   dockerTask47AD99FE:
@@ -181,21 +155,47 @@ Resources:
               Resource:
                 - !GetAtt dockerTask47AD99FEExecutionRole.Arn
                 - !GetAtt dockerTask47AD99FETaskRole.Arn
-      Events:
-        api5FDABD79GET/stop:
-          Type: Api
-          Properties:
-            Path: /stop
-            Method: GET
-            RestApiId: !Ref api5FDABD79
       Environment:
         Variables:
           DOCKER_TASK_ARN: !Ref dockerTask47AD99FE
           DOCKER_TASK_SUBNETS: !Join
             - ','
             - !Ref DefaultVPCSubnets
+      Events:
+        api2E0CD11EGET/stop:
+          Type: Api
+          Properties:
+            Path: /stop
+            Method: GET
+            RestApiId: !Ref api2E0CD11E
     Metadata:
       StackeryName: stopNeo4j
+  api2E0CD11E:
+    Type: AWS::Serverless::Api
+    Properties:
+      Name: !Sub
+        - ${ResourceName} From Stackery Stack ${StackeryStackTagName} Environment ${StackeryEnvironmentTagName}
+        - ResourceName: api2E0CD11E
+      StageName: !Ref StackeryEnvironmentAPIGatewayStageName
+      DefinitionBody:
+        openapi: '3.0'
+        info: {}
+        paths:
+          /start:
+            get:
+              x-amazon-apigateway-integration:
+                httpMethod: POST
+                type: aws_proxy
+                uri: !Sub arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${function8791253A.Arn}/invocations
+              responses: {}
+          /stop:
+            get:
+              x-amazon-apigateway-integration:
+                httpMethod: POST
+                type: aws_proxy
+                uri: !Sub arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${function47E33BAD.Arn}/invocations
+              responses: {}
+      EndpointConfiguration: REGIONAL
 Parameters:
   StackeryStackTagName:
     Type: String
@@ -203,9 +203,9 @@ Parameters:
   StackeryEnvironmentTagName:
     Type: String
     Description: Environment Name (injected by Stackery at deployment time)
-  StackeryEnvironmentAPIGatewayStageName:
-    Type: String
-    Description: Environment name used for API Gateway Stage names (injected by Stackery at deployment time)
   DefaultVPCSubnets:
     Type: List<AWS::EC2::Subnet::Id>
     Description: AWS account-specific default VPC subnets (injected by Stackery at deployment time)
+  StackeryEnvironmentAPIGatewayStageName:
+    Type: String
+    Description: Environment name used for API Gateway Stage names (injected by Stackery at deployment time)
