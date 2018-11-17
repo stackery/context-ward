@@ -8,5 +8,5 @@ exports.handler = async message => {
     taskDefinition: process.env.DOCKER_TASK_ARN
   };
   console.log(params);
-  return ecs.createService(params).promise();
+  return ecs.runTask(params).promise();
 }
