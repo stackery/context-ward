@@ -75,6 +75,10 @@ Resources:
               awslogs-group: !Ref dockerTask47AD99FELogGroup
               awslogs-region: !Ref AWS::Region
               awslogs-stream-prefix: 498391311152-dkr-ecr-us-west-2-amazonaws-com-ward-latest
+          PortMappings:
+            - ContainerPort: 7474
+              HostPort: 7474
+              Protocol: http
           Name: 0
           Environment: []
       Cpu: 1024
