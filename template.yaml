@@ -39,7 +39,7 @@ Resources:
             - !Ref DefaultVPCSubnets
           DOCKER_TASK_ARN: !Ref dockerTask47AD99FE
       Events:
-        api2E0CD11EGETstart:
+        api2E0CD11EGET/start:
           Type: Api
           Properties:
             Path: /start
@@ -157,12 +157,15 @@ Resources:
                 - !GetAtt dockerTask47AD99FETaskRole.Arn
       Environment:
         Variables:
-          DOCKER_TASK_ARN: !Ref dockerTask47AD99FE
           DOCKER_TASK_SUBNETS: !Join
             - ','
             - !Ref DefaultVPCSubnets
+          DOCKER_TASK_ARN: !Ref dockerTask47AD99FE
+          DOCKER_TASK_SUBNETS_2: !Join
+            - ','
+            - !Ref DefaultVPCSubnets
       Events:
-        api2E0CD11EGETstop:
+        api2E0CD11EGET/stop:
           Type: Api
           Properties:
             Path: /stop
