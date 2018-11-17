@@ -4,7 +4,11 @@ exports.handler = async message => {
   const ecs = new AWS.ECS({apiVersion: '2014-11-13'});
   const params = {
     cluster: 'default',
-    subnets: JSON.parse(process.env.DOCKER_TASK_SUBNETS),
+    networkConfiguration: {
+      awsvpcConfiguration: {
+        subnets: process.env.DOCKER_TASK_SUBNETS,
+      }
+    },
     taskDefinition: process.env.DOCKER_TASK_ARN
   };
   console.log(params);
