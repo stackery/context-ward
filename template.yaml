@@ -64,9 +64,6 @@ Resources:
             - ','
             - !Ref DefaultVPCSubnets
           DOCKER_TASK_ARN: !Ref dockerTask47AD99FE
-          DOCKER_TASK_SUBNETS_2: !Join
-            - ','
-            - !Ref DefaultVPCSubnets
   dockerTask47AD99FE:
     Type: AWS::ECS::TaskDefinition
     Properties:
