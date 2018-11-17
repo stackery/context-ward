@@ -78,7 +78,13 @@ Resources:
           PortMappings:
             - ContainerPort: 7474
               HostPort: 7474
-              Protocol: http
+              Protocol: tcp
+            - ContainerPort: 7473
+              HostPort: 7473
+              Protocol: tcp
+            - ContainerPort: 7687
+              HostPort: 7687
+              Protocol: tcp
           Name: 0
           Environment: []
       Cpu: 1024
