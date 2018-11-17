@@ -33,8 +33,8 @@ Resources:
       FunctionName: !Sub ${AWS::StackName}-function8791253A
       Description: !Sub
         - Stackery Stack ${StackeryStackTagName} Environment ${StackeryEnvironmentTagName} Function ${ResourceName}
-        - ResourceName: StartNeo4J
-      CodeUri: src/function8791253A
+        - ResourceName: startNeo4j
+      CodeUri: src/startNeo4j
       Handler: index.handler
       Runtime: nodejs8.10
       MemorySize: 3008
@@ -72,7 +72,7 @@ Resources:
             Method: GET
             RestApiId: !Ref api5FDABD79
     Metadata:
-      StackeryName: StartNeo4J
+      StackeryName: startNeo4j
   dockerTask47AD99FE:
     Type: AWS::ECS::TaskDefinition
     Properties:
@@ -156,8 +156,8 @@ Resources:
       FunctionName: !Sub ${AWS::StackName}-function47E33BAD
       Description: !Sub
         - Stackery Stack ${StackeryStackTagName} Environment ${StackeryEnvironmentTagName} Function ${ResourceName}
-        - ResourceName: StopNeo4J
-      CodeUri: src/function47E33BAD
+        - ResourceName: stopNeo4j
+      CodeUri: src/stopNeo4j
       Handler: index.handler
       Runtime: nodejs8.10
       MemorySize: 3008
@@ -195,7 +195,7 @@ Resources:
             - ','
             - !Ref DefaultVPCSubnets
     Metadata:
-      StackeryName: StopNeo4J
+      StackeryName: stopNeo4j
 Parameters:
   StackeryStackTagName:
     Type: String
