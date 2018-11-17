@@ -12,12 +12,19 @@ Resources:
         swagger: '2.0'
         info: {}
         paths:
-          /:
+          /start:
             get:
               x-amazon-apigateway-integration:
                 httpMethod: POST
                 type: aws_proxy
                 uri: !Sub arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${function8791253A.Arn}/invocations
+              responses: {}
+          /stop:
+            get:
+              x-amazon-apigateway-integration:
+                httpMethod: POST
+                type: aws_proxy
+                uri: !Sub arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${function47E33BAD.Arn}/invocations
               responses: {}
       EndpointConfiguration: REGIONAL
   function8791253A:
@@ -26,7 +33,7 @@ Resources:
       FunctionName: !Sub ${AWS::StackName}-function8791253A
       Description: !Sub
         - Stackery Stack ${StackeryStackTagName} Environment ${StackeryEnvironmentTagName} Function ${ResourceName}
-        - ResourceName: function8791253A
+        - ResourceName: StartNeo4J
       CodeUri: src/function8791253A
       Handler: index.handler
       Runtime: nodejs8.10
@@ -51,19 +58,21 @@ Resources:
               Resource:
                 - !GetAtt dockerTask47AD99FEExecutionRole.Arn
                 - !GetAtt dockerTask47AD99FETaskRole.Arn
-      Events:
-        api5FDABD79:
-          Type: Api
-          Properties:
-            Path: /
-            Method: GET
-            RestApiId: !Ref api5FDABD79
       Environment:
         Variables:
           DOCKER_TASK_SUBNETS: !Join
             - ','
             - !Ref DefaultVPCSubnets
           DOCKER_TASK_ARN: !Ref dockerTask47AD99FE
+      Events:
+        api5FDABD79GET/start:
+          Type: Api
+          Properties:
+            Path: /start
+            Method: GET
+            RestApiId: !Ref api5FDABD79
+    Metadata:
+      StackeryName: StartNeo4J
   dockerTask47AD99FE:
     Type: AWS::ECS::TaskDefinition
     Properties:
@@ -141,6 +150,52 @@ Resources:
           Principal:
             Service: ecs-tasks.amazonaws.com
           Action: sts:AssumeRole
+  function47E33BAD:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: !Sub ${AWS::StackName}-function47E33BAD
+      Description: !Sub
+        - Stackery Stack ${StackeryStackTagName} Environment ${StackeryEnvironmentTagName} Function ${ResourceName}
+        - ResourceName: StopNeo4J
+      CodeUri: src/function47E33BAD
+      Handler: index.handler
+      Runtime: nodejs8.10
+      MemorySize: 3008
+      Timeout: 30
+      Tracing: Active
+      Policies:
+        - AWSXrayWriteOnlyAccess
+        - Statement:
+            - Effect: Allow
+              Action:
+                - ecs:RunTask
+                - ecs:DescribeTasks
+                - ecs:StopTask
+              Resource:
+                - !Ref dockerTask47AD99FE
+                - !Sub arn:aws:ecs:${AWS::Region}:${AWS::AccountId}:task/*
+        - Statement:
+            - Effect: Allow
+              Action:
+                - iam:PassRole
+              Resource:
+                - !GetAtt dockerTask47AD99FEExecutionRole.Arn
+                - !GetAtt dockerTask47AD99FETaskRole.Arn
+      Events:
+        api5FDABD79GET/stop:
+          Type: Api
+          Properties:
+            Path: /stop
+            Method: GET
+            RestApiId: !Ref api5FDABD79
+      Environment:
+        Variables:
+          DOCKER_TASK_ARN: !Ref dockerTask47AD99FE
+          DOCKER_TASK_SUBNETS: !Join
+            - ','
+            - !Ref DefaultVPCSubnets
+    Metadata:
+      StackeryName: StopNeo4J
 Parameters:
   StackeryStackTagName:
     Type: String
