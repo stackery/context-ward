@@ -1,4 +1,5 @@
 const AWS = require('aws-sdk')
+
 exports.handler = async message => {
   console.log(message);
   const ecs = new AWS.ECS({apiVersion: '2014-11-13'});
