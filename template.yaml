@@ -144,6 +144,7 @@ Resources:
             - Effect: Allow
               Action:
                 - ecs:StopTask
+                - ecs:ListTasks
               Resource: 
                 - "*"
         - Statement:
