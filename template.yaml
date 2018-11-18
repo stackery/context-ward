@@ -38,6 +38,7 @@ Resources:
             - ','
             - !Ref DefaultVPCSubnets
           DOCKER_TASK_ARN: !Ref dockerTask47AD99FE
+          DOCKER_SG: !Ref fargateSecurityGroup
       Events:
         api4C5FAC75GETstart:
           Type: Api
@@ -196,6 +197,23 @@ Resources:
                 uri: !Sub arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${function47E33BAD.Arn}/invocations
               responses: {}
       EndpointConfiguration: REGIONAL
+  fargateSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: allow connections from specified source security group
+      SecurityGroupIngress:
+      - IpProtocol: tcp
+        FromPort: 7474
+        ToPort: 7474
+        SourceSecurityGroupName: !Ref fargateSecurityGroup
+      - IpProtocol: tcp
+        FromPort: 7473
+        ToPort: 7473
+        SourceSecurityGroupName: !Ref fargateSecurityGroup
+      - IpProtocol: tcp
+        FromPort: 7687
+        ToPort: 7687
+        SourceSecurityGroupName: !Ref fargateSecurityGroup
 Parameters:
   StackeryStackTagName:
     Type: String
