@@ -147,7 +147,7 @@ Resources:
               Resource: "*"
               Condition:
                 ArnEquals:
-                  ecs:cluster: arn:aws:ecs:us-east-1::cluster/default
+                  ecs:cluster: arn:aws:ecs:${AWS::Region}:${AWS::AcountId}:cluster/default
         - Statement:
             - Effect: Allow
               Action:
