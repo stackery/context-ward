@@ -11,10 +11,13 @@ exports.handler = async message => {
   try {
     const listResponse = await ecs.listTasks().promise();
     console.log(listResponse)
+    const promises = []
     listResponse.taskArns && listResponse.taskArns.forEach(arn => {
-      const stopResponse = await ecs.stopTask(arn).promise();
-      console.log(stopResponse)
+      const stopPromise = ecs.stopTask(arn).promise();
+      promises.push(stopPromise);
     });
+    const results = await Promise.all(promises);
+    console.log(results);
     return {
       statusCode: 200,
       body: `neo4j stopped`
