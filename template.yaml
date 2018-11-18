@@ -147,7 +147,7 @@ Resources:
               Resource: "*"
               Condition:
                 ArnEquals:
-                  ecs:cluster: arn:aws:ecs:us-east-1:${AWS::AccountId}:cluster/default
+                  ecs:cluster: arn:aws:ecs:us-east-1::cluster/default
         - Statement:
             - Effect: Allow
               Action:
@@ -155,7 +155,6 @@ Resources:
               Resource:
                 - !GetAtt dockerTask47AD99FEExecutionRole.Arn
                 - !GetAtt dockerTask47AD99FETaskRole.Arn
-                Statement:
       Environment:
         Variables:
           DOCKER_TASK_SUBNETS: !Join
