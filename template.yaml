@@ -38,9 +38,6 @@ Resources:
             - ','
             - !Ref DefaultVPCSubnets
           DOCKER_TASK_ARN: !Ref dockerTask47AD99FE
-          DOCKER_TASK_SUBNETS_2: !Join
-            - ','
-            - !Ref DefaultVPCSubnets
       Events:
         api4C5FAC75GETstart:
           Type: Api
@@ -163,13 +160,7 @@ Resources:
           DOCKER_TASK_SUBNETS: !Join
             - ','
             - !Ref DefaultVPCSubnets
-          DOCKER_TASK_SUBNETS_2: !Join
-            - ','
-            - !Ref DefaultVPCSubnets
           DOCKER_TASK_ARN: !Ref dockerTask47AD99FE
-          DOCKER_TASK_SUBNETS_3: !Join
-            - ','
-            - !Ref DefaultVPCSubnets
       Events:
         api4C5FAC75GETstop:
           Type: Api
