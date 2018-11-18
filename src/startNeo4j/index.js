@@ -20,10 +20,11 @@ exports.handler = async message => {
     return {
       statusCode: 200,
       body: 'neo4j started'
-  }
+    }
   } catch (e) {
     return {
       statusCode: 500,
       body: e.message
+    }
   }
-}
+};
