@@ -5,14 +5,15 @@ exports.handler = async message => {
   const ecs = new AWS.ECS({apiVersion: '2014-11-13', region: 'us-west-2'});
   console.log(process.env)
   const params = {
+    launchType: 'FARGATE',
     cluster: 'default',
+    taskDefinition: process.env.DOCKER_TASK_ARN,
     networkConfiguration: {
       awsvpcConfiguration: {
-        subnets: process.env.DOCKER_TASK_SUBNETS.split(',')
+        subnets: process.env.DOCKER_TASK_SUBNETS.split(','),
+        securityGroups: [process.env.DOCKER_SG],
       }
     },
-    launchType: 'FARGATE',
-    taskDefinition: process.env.DOCKER_TASK_ARN,
   };
   console.log(params);
   try {
