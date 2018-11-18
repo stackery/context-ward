@@ -39,12 +39,12 @@ Resources:
             - !Ref DefaultVPCSubnets
           DOCKER_TASK_ARN: !Ref dockerTask47AD99FE
       Events:
-        api2E0CD11EGETstart:
+        api4C5FAC75GETstart:
           Type: Api
           Properties:
             Path: /start
             Method: GET
-            RestApiId: !Ref api2E0CD11E
+            RestApiId: !Ref api4C5FAC75
     Metadata:
       StackeryName: startNeo4j
   dockerTask47AD99FE:
@@ -166,19 +166,24 @@ Resources:
             - !Ref DefaultVPCSubnets
       Events:
         api2E0CD11EGETstop:
-          # Type: Api
           Properties:
             Path: /stop
             Method: GET
             RestApiId: !Ref api2E0CD11E
+        api4C5FAC75GETstop:
+          Type: Api
+          Properties:
+            Path: /stop
+            Method: GET
+            RestApiId: !Ref api4C5FAC75
     Metadata:
       StackeryName: stopNeo4j
-  api2E0CD11E:
+  api4C5FAC75:
     Type: AWS::Serverless::Api
     Properties:
       Name: !Sub
         - ${ResourceName} From Stackery Stack ${StackeryStackTagName} Environment ${StackeryEnvironmentTagName}
-        - ResourceName: api2E0CD11E
+        - ResourceName: api4C5FAC75
       StageName: !Ref StackeryEnvironmentAPIGatewayStageName
       DefinitionBody:
         openapi: '3.0'
