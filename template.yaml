@@ -38,7 +38,7 @@ Resources:
             - ','
             - !Ref DefaultVPCSubnets
           DOCKER_TASK_ARN: !Ref dockerTask47AD99FE
-          DOCKER_SG: !GetAtt fargateSecurityGroup.Name
+          DOCKER_SG: !Ref fargateSecurityGroup
       Events:
         api4C5FAC75GETstart:
           Type: Api
