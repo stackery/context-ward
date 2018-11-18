@@ -143,12 +143,11 @@ Resources:
         - Statement:
             - Effect: Allow
               Action:
-                - ecs:RunTask
-                - ecs:DescribeTasks
                 - ecs:StopTask
-              Resource:
-                - !Ref dockerTask47AD99FE
-                - !Sub arn:aws:ecs:${AWS::Region}:${AWS::AccountId}:task/*
+              Resource: "*"
+              Condition:
+                ArnEquals:
+                  ecs:cluster: arn:aws:ecs:us-east-1:${AWS::AccountId}:cluster/default
         - Statement:
             - Effect: Allow
               Action:
@@ -156,6 +155,7 @@ Resources:
               Resource:
                 - !GetAtt dockerTask47AD99FEExecutionRole.Arn
                 - !GetAtt dockerTask47AD99FETaskRole.Arn
+                Statement:
       Environment:
         Variables:
           DOCKER_TASK_SUBNETS: !Join
