@@ -144,10 +144,8 @@ Resources:
             - Effect: Allow
               Action:
                 - ecs:StopTask
-              Resource: "*"
-              Condition:
-                ArnEquals:
-                  ecs:cluster: !Sub arn:aws:ecs:${AWS::Region}:${AWS::AcountId}:cluster/default
+              Resource: 
+                - "*"
         - Statement:
             - Effect: Allow
               Action:
