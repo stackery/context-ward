@@ -19,10 +19,11 @@ exports.handler = async message => {
   };
   console.log(params);
   try {
-    await ecs.runTask(params).promise();
+    const response = await ecs.runTask(params).promise();
+    console.log(response)
     return {
       statusCode: 200,
-      body: 'neo4j started'
+      body: `neo4j started\n ${response}`
     }
   } catch (e) {
     return {
