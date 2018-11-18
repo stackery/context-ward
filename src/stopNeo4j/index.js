@@ -9,6 +9,8 @@ exports.handler = async message => {
   };
   console.log(params);
   try {
+    const response = await ecs.listTasks().promise();
+    console.log(response)
     const response = await ecs.stopTask(params).promise();
     console.log(response)
     return {
