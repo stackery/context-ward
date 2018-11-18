@@ -15,5 +15,15 @@ exports.handler = async message => {
     taskDefinition: process.env.DOCKER_TASK_ARN,
   };
   console.log(params);
-  return ecs.runTask(params).promise();
+  try {
+    await ecs.runTask(params).promise();
+    return {
+      statusCode: 200,
+      body: 'neo4j started'
+  }
+  } catch (e) {
+    return {
+      statusCode: 500,
+      body: e.message
+  }
 }
