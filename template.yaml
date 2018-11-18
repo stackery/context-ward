@@ -200,6 +200,7 @@ Resources:
   fargateSecurityGroup:
     Type: AWS::EC2::SecurityGroup
     Properties:
+      GroupDescription: Neo4j Ports
       SecurityGroupIngress:
         - IpProtocol: tcp
           FromPort: 7474
