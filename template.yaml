@@ -165,11 +165,6 @@ Resources:
             - ','
             - !Ref DefaultVPCSubnets
       Events:
-        api2E0CD11EGETstop:
-          Properties:
-            Path: /stop
-            Method: GET
-            RestApiId: !Ref api2E0CD11E
         api4C5FAC75GETstop:
           Type: Api
           Properties:
