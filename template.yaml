@@ -200,20 +200,16 @@ Resources:
   fargateSecurityGroup:
     Type: AWS::EC2::SecurityGroup
     Properties:
-      GroupDescription: allow connections from specified source security group
       SecurityGroupIngress:
-      - IpProtocol: tcp
-        FromPort: 7474
-        ToPort: 7474
-        SourceSecurityGroupName: !Ref fargateSecurityGroup
-      - IpProtocol: tcp
-        FromPort: 7473
-        ToPort: 7473
-        SourceSecurityGroupName: !Ref fargateSecurityGroup
-      - IpProtocol: tcp
-        FromPort: 7687
-        ToPort: 7687
-        SourceSecurityGroupName: !Ref fargateSecurityGroup
+        - IpProtocol: tcp
+          FromPort: 7474
+          ToPort: 7474
+        - IpProtocol: tcp
+          FromPort: 7473
+          ToPort: 7473
+        - IpProtocol: tcp
+          FromPort: 7687
+          ToPort: 7687
 Parameters:
   StackeryStackTagName:
     Type: String
