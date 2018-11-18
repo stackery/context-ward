@@ -71,9 +71,9 @@ Resources:
               Protocol: tcp
           Name: 0
           Environment: []
-      Cpu: 2048
+      Cpu: 4096
       ExecutionRoleArn: !GetAtt dockerTask47AD99FEExecutionRole.Arn
-      Memory: 4096
+      Memory: 10240
       NetworkMode: awsvpc
       RequiresCompatibilities:
         - FARGATE
