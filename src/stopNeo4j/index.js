@@ -6,8 +6,19 @@ exports.handler = async message => {
   console.log(process.env)
   const params = {
     task: process.env.DOCKER_TASK_ARN,
-    cluster: 'default',
   };
   console.log(params);
-  return ecs.stopTask(params).promise();
+  try {
+    const response = await ecs.stopTask(params).promise();
+    console.log(response)
+    return {
+      statusCode: 200,
+      body: `neo4j stopped\n ${JSON.stringify(response)}`
+    }
+  } catch (e) {
+    return {
+      statusCode: 500,
+      body: e.message
+    }
+  }
 };
