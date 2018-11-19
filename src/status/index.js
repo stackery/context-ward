@@ -1,4 +1,5 @@
 const AWS = require('aws-sdk');
+const util = require('util');
 
 exports.handler = async message => {
   console.log(message);
@@ -10,7 +11,7 @@ exports.handler = async message => {
     const descResponse = await ecs.describeTasks({ tasks: listResponse.taskArns });
     return {
       statusCode: 200,
-      body: JSON.stringify(descResponse)
+      body: util.inspect(descResponse)
     };
   } catch (e) {
     return {
