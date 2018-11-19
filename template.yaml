@@ -283,6 +283,10 @@ Resources:
                 - ec2:DescribeImages
                 - ec2:DescribeTags
                 - ec2:DescribeSnapshots
+                - ec2:DescribeKeyPairs
+                - ec2:DescribeVpcs
+                - ec2:DescribeSubnets
+                - ec2:DescribeSecurityGroups
               Resource: '*'
         - Statement:
             - Effect: Allow
