@@ -11,7 +11,7 @@ exports.handler = async message => {
     const descResponse = await ecs.describeTasks({ tasks: listResponse.taskArns }).promise();
     return {
       statusCode: 200,
-      body: util.inspect(descResponse)
+      body: JSON.stringify(descResponse)
     };
   } catch (e) {
     return {
