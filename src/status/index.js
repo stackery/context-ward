@@ -9,7 +9,7 @@ exports.handler = async message => {
     console.log(listResponse);
     const descResponse = await ecs.describeTasks({ tasks: listResponse.taskArns }).promise();
     const eni = descResponse.tasks[0].attachments[0].details[1].value;
-    const descNI = await ec2.describeNetworkInterfaces({ NetworkInterfaceIds: eni }).promise();
+    const descNI = await ec2.describeNetworkInterfaces({ NetworkInterfaceIds: [eni] }).promise();
     return {
       statusCode: 200,
       body: JSON.stringify(descNI, null, 2)
