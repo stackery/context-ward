@@ -144,9 +144,10 @@ Resources:
             - Effect: Allow
               Action:
                 - ecs:StopTask
-                - ecs:ListTasks
-              Resource: 
-                - "*"
+              Resource: '*'
+              Condition:
+                ArnEquals:
+                  ecs:cluster: !Sub arn:aws:ecs:${AWS::Region}:${AWS::AcountId}:cluster/default
         - Statement:
             - Effect: Allow
               Action:
@@ -167,6 +168,10 @@ Resources:
             Path: /stop
             Method: GET
             RestApiId: !Ref api4C5FAC75
+        timer3F72A244:
+          Type: Schedule
+          Properties:
+            Schedule: rate(10 minutes)
     Metadata:
       StackeryName: stopNeo4j
   api4C5FAC75:
