@@ -247,6 +247,8 @@ Resources:
               Resource:
                 - !GetAtt dockerTask47AD99FEExecutionRole.Arn
                 - !GetAtt dockerTask47AD99FETaskRole.Arn
+        - LambdaInvokePolicy:
+            FunctionName: !Ref function8791253A
       Events:
         api4C5FAC75GETaccess:
           Type: Api
