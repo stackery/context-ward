@@ -135,7 +135,7 @@ Resources:
       CodeUri: src/stopNeo4j
       Handler: index.handler
       Runtime: nodejs8.10
-      MemorySize: 3008
+      MemorySize: 512
       Timeout: 30
       Tracing: Active
       Policies:
