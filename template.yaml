@@ -45,13 +45,13 @@ Resources:
     Type: AWS::ECS::TaskDefinition
     Properties:
       ContainerDefinitions:
-        - Image: 498391311152.dkr.ecr.us-west-2.amazonaws.com/ward:latest
+        - Image: samgoldstein/context-db
           LogConfiguration:
             LogDriver: awslogs
             Options:
               awslogs-group: !Ref dockerTask47AD99FELogGroup
               awslogs-region: !Ref AWS::Region
-              awslogs-stream-prefix: 498391311152-dkr-ecr-us-west-2-amazonaws-com-ward-latest
+              awslogs-stream-prefix: samgoldstein-context-db
           PortMappings:
             - ContainerPort: 7474
               HostPort: 7474
@@ -78,7 +78,7 @@ Resources:
   dockerTask47AD99FELogGroup:
     Type: AWS::Logs::LogGroup
     Properties:
-      LogGroupName: !Sub /stackery/task/${AWS::StackName}-dockerTask47AD99FE/498391311152-dkr-ecr-us-west-2-amazonaws-com-ward-latest
+      LogGroupName: !Sub /stackery/task/${AWS::StackName}-dockerTask47AD99FE/samgoldstein-context-db
   dockerTask47AD99FEExecutionRole:
     Type: AWS::IAM::Role
     Properties:
