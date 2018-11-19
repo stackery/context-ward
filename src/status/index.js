@@ -7,9 +7,10 @@ exports.handler = async message => {
   try {
     const listResponse = await ecs.listTasks().promise();
     console.log(listResponse);
+    const descResponse = await ecs.describeTasks({ tasks: listResponse.taskArns });
     return {
       statusCode: 200,
-      body: JSON.stringify(listResponse.taskArns)
+      body: JSON.stringify(descResponse)
     };
   } catch (e) {
     return {
