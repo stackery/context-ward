@@ -45,13 +45,13 @@ Resources:
     Type: AWS::ECS::TaskDefinition
     Properties:
       ContainerDefinitions:
-        - Image: samgoldstein/context-db
+        - Image: docker.io/samgoldstein/context-db:latest
           LogConfiguration:
             LogDriver: awslogs
             Options:
               awslogs-group: !Ref dockerTask47AD99FELogGroup
               awslogs-region: !Ref AWS::Region
-              awslogs-stream-prefix: samgoldstein-context-db
+              awslogs-stream-prefix: docker-io-samgoldstein-context-db-latest
           PortMappings:
             - ContainerPort: 7474
               HostPort: 7474
