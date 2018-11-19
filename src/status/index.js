@@ -8,7 +8,7 @@ exports.handler = async message => {
   try {
     const listResponse = await ecs.listTasks().promise();
     console.log(listResponse);
-    const descResponse = await ecs.describeTasks({ tasks: listResponse.taskArns });
+    const descResponse = await ecs.describeTasks({ tasks: listResponse.taskArns }).promise();
     return {
       statusCode: 200,
       body: util.inspect(descResponse)
