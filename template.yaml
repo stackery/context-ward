@@ -277,8 +277,8 @@ Resources:
         - Statement:
             - Effect: Allow
               Action:
-                - ecs:StopTask
                 - ecs:ListTasks
+                - ecs:DescribeTasks
               Resource: '*'
         - Statement:
             - Effect: Allow
