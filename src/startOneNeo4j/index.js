@@ -22,7 +22,7 @@ exports.handler = async message => {
         FunctionName: process.env.FUNCTION_NAME,
         InvokeArgs: '{}' 
        };
-       await lambda.invokeAsync(params).promise();
+      await lambda.invokeAsync(params).promise();
       return {
         statusCode: 200,
         body: `started neo4j`
