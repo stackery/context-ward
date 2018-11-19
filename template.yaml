@@ -279,6 +279,10 @@ Resources:
               Action:
                 - ecs:ListTasks
                 - ecs:DescribeTasks
+                - ec2:DescribeInstances
+                - ec2:DescribeImages
+                - ec2:DescribeTags
+                - ec2:DescribeSnapshots
               Resource: '*'
         - Statement:
             - Effect: Allow
