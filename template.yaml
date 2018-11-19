@@ -163,6 +163,8 @@ Resources:
           Type: Schedule
           Properties:
             Schedule: rate(10 minutes)
+          Metadata:
+            StackeryName: Every 10 minutes
     Metadata:
       StackeryName: stopNeo4j
   api4C5FAC75:
