@@ -13,7 +13,7 @@ exports.handler = async message => {
     console.log(listResponse)
     const promises = []
     listResponse.taskArns && listResponse.taskArns.forEach(arn => {
-      const stopPromise = ecs.stopTask(arn).promise();
+      const stopPromise = ecs.stopTask({task: arn}).promise();
       promises.push(stopPromise);
     });
     const results = await Promise.all(promises);
