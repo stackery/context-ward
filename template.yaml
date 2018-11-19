@@ -39,13 +39,6 @@ Resources:
             - !Ref DefaultVPCSubnets
           DOCKER_TASK_ARN: !Ref dockerTask47AD99FE
           DOCKER_SG: !GetAtt fargateSecurityGroup.GroupId
-      Events:
-        api4C5FAC75GETstart:
-          Type: Api
-          Properties:
-            Path: /start
-            Method: GET
-            RestApiId: !Ref api4C5FAC75
     Metadata:
       StackeryName: startNeo4j
   dockerTask47AD99FE:
@@ -188,7 +181,7 @@ Resources:
               x-amazon-apigateway-integration:
                 httpMethod: POST
                 type: aws_proxy
-                uri: !Sub arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${function8791253A.Arn}/invocations
+                uri: !Sub arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${functionC973F0D0.Arn}/invocations
               responses: {}
           /stop:
             get:
@@ -197,12 +190,12 @@ Resources:
                 type: aws_proxy
                 uri: !Sub arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${function47E33BAD.Arn}/invocations
               responses: {}
-          /access:
+          /status:
             get:
               x-amazon-apigateway-integration:
                 httpMethod: POST
                 type: aws_proxy
-                uri: !Sub arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${functionC973F0D0.Arn}/invocations
+                uri: !Sub arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${functionF044B9B0.Arn}/invocations
               responses: {}
       EndpointConfiguration: REGIONAL
   fargateSecurityGroup:
@@ -250,10 +243,10 @@ Resources:
         - LambdaInvokePolicy:
             FunctionName: !Ref function8791253A
       Events:
-        api4C5FAC75GETaccess:
+        api4C5FAC75GETstart:
           Type: Api
           Properties:
-            Path: /access
+            Path: /start
             Method: GET
             RestApiId: !Ref api4C5FAC75
       Environment:
@@ -266,6 +259,51 @@ Resources:
           FUNCTION_ARN: !GetAtt function8791253A.Arn
     Metadata:
       StackeryName: startOneNeo4j
+  functionF044B9B0:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: !Sub ${AWS::StackName}-functionF044B9B0
+      Description: !Sub
+        - Stackery Stack ${StackeryStackTagName} Environment ${StackeryEnvironmentTagName} Function ${ResourceName}
+        - ResourceName: status
+      CodeUri: src/status
+      Handler: index.handler
+      Runtime: nodejs8.10
+      MemorySize: 3008
+      Timeout: 30
+      Tracing: Active
+      Policies:
+        - AWSXrayWriteOnlyAccess
+        - Statement:
+            - Effect: Allow
+              Action:
+                - ecs:StopTask
+                - ecs:ListTasks
+              Resource: '*'
+        - Statement:
+            - Effect: Allow
+              Action:
+                - iam:PassRole
+              Resource:
+                - !GetAtt dockerTask47AD99FEExecutionRole.Arn
+                - !GetAtt dockerTask47AD99FETaskRole.Arn
+        - LambdaInvokePolicy:
+            FunctionName: !Ref function8791253A
+      Events:
+        api4C5FAC75GETstatus:
+          Type: Api
+          Properties:
+            Path: /status
+            Method: GET
+            RestApiId: !Ref api4C5FAC75
+      Environment:
+        Variables:
+          DOCKER_TASK_ARN: !Ref dockerTask47AD99FE
+          DOCKER_TASK_SUBNETS: !Join
+            - ','
+            - !Ref DefaultVPCSubnets
+    Metadata:
+      StackeryName: status
 Parameters:
   StackeryStackTagName:
     Type: String
