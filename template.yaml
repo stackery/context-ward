@@ -144,8 +144,10 @@ Resources:
             - Effect: Allow
               Action:
                 - ecs:StopTask
-                - ecs:ListTasks
               Resource: '*'
+              Condition:
+                ArnEquals:
+                  ecs:cluster: !Sub arn:aws:ecs:${AWS::Region}:${AWS::AcountId}:cluster/default
         - Statement:
             - Effect: Allow
               Action:
@@ -197,6 +199,13 @@ Resources:
                 type: aws_proxy
                 uri: !Sub arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${function47E33BAD.Arn}/invocations
               responses: {}
+          /access:
+            get:
+              x-amazon-apigateway-integration:
+                httpMethod: POST
+                type: aws_proxy
+                uri: !Sub arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${functionC973F0D0.Arn}/invocations
+              responses: {}
       EndpointConfiguration: REGIONAL
   fargateSecurityGroup:
     Type: AWS::EC2::SecurityGroup
@@ -212,6 +221,56 @@ Resources:
         - IpProtocol: tcp
           FromPort: 7687
           ToPort: 7687
+  functionC973F0D0:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: !Sub ${AWS::StackName}-functionC973F0D0
+      Description: !Sub
+        - Stackery Stack ${StackeryStackTagName} Environment ${StackeryEnvironmentTagName} Function ${ResourceName}
+        - ResourceName: startOneNeo4j
+      CodeUri: src/startOneNeo4j
+      Handler: index.handler
+      Runtime: nodejs8.10
+      MemorySize: 3008
+      Timeout: 30
+      Tracing: Active
+      Policies:
+        - AWSXrayWriteOnlyAccess
+        - Statement:
+            - Effect: Allow
+              Action:
+                - ecs:RunTask
+                - ecs:DescribeTasks
+                - ecs:StopTask
+              Resource:
+                - !Ref dockerTask47AD99FE
+                - !Sub arn:aws:ecs:${AWS::Region}:${AWS::AccountId}:task/*
+        - Statement:
+            - Effect: Allow
+              Action:
+                - iam:PassRole
+              Resource:
+                - !GetAtt dockerTask47AD99FEExecutionRole.Arn
+                - !GetAtt dockerTask47AD99FETaskRole.Arn
+        - LambdaInvokePolicy:
+            FunctionName: !Ref function8791253A
+      Events:
+        api4C5FAC75GETaccess:
+          Type: Api
+          Properties:
+            Path: /access
+            Method: GET
+            RestApiId: !Ref api4C5FAC75
+      Environment:
+        Variables:
+          DOCKER_TASK_ARN: !Ref dockerTask47AD99FE
+          DOCKER_TASK_SUBNETS: !Join
+            - ','
+            - !Ref DefaultVPCSubnets
+          FUNCTION_NAME: !Ref function8791253A
+          FUNCTION_ARN: !GetAtt function8791253A.Arn
+    Metadata:
+      StackeryName: startOneNeo4j
 Parameters:
   StackeryStackTagName:
     Type: String
