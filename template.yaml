@@ -144,10 +144,8 @@ Resources:
             - Effect: Allow
               Action:
                 - ecs:StopTask
+                - ecs:ListTasks
               Resource: '*'
-              Condition:
-                ArnEquals:
-                  ecs:cluster: !Sub arn:aws:ecs:${AWS::Region}:${AWS::AcountId}:cluster/default
         - Statement:
             - Effect: Allow
               Action:
@@ -239,12 +237,9 @@ Resources:
         - Statement:
             - Effect: Allow
               Action:
-                - ecs:RunTask
-                - ecs:DescribeTasks
                 - ecs:StopTask
-              Resource:
-                - !Ref dockerTask47AD99FE
-                - !Sub arn:aws:ecs:${AWS::Region}:${AWS::AccountId}:task/*
+                - ecs:ListTasks
+              Resource: '*'
         - Statement:
             - Effect: Allow
               Action:
@@ -252,8 +247,6 @@ Resources:
               Resource:
                 - !GetAtt dockerTask47AD99FEExecutionRole.Arn
                 - !GetAtt dockerTask47AD99FETaskRole.Arn
-        - LambdaInvokePolicy:
-            FunctionName: !Ref function8791253A
       Events:
         api4C5FAC75GETaccess:
           Type: Api
