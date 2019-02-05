@@ -308,6 +308,14 @@ Resources:
                 uri: !Sub arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${status.Arn}/invocations
               responses: {}
       EndpointConfiguration: REGIONAL
+  ObjectStore:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Sub ${AWS::StackName}-objectstore
+  ObjectStore2:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Sub ${AWS::StackName}-objectstore2
 Parameters:
   StackeryStackTagName:
     Type: String
