@@ -55,7 +55,7 @@ Resources:
       Description: !Sub
         - Stackery Stack ${StackeryStackTagName} Environment ${StackeryEnvironmentTagName} Function ${ResourceName}
         - ResourceName: status
-      CodeUri: src/status
+      CodeUri: src
       Handler: index.handler
       Runtime: nodejs8.10
       MemorySize: 3008
