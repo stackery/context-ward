@@ -246,7 +246,7 @@ Resources:
   neo4jDockerTaskTaskRole:
     Type: AWS::IAM::Role
     Properties:
-      RoleName: !Sub ${AWS::StackName}-DockerTaskTaskRole
+      RoleName: !Sub ${AWS::StackName}-neo4jDockerTaskTaskRole
       AssumeRolePolicyDocument:
         Version: 2012-10-17
         Statement:
