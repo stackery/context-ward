@@ -14,7 +14,7 @@ Resources:
       MemorySize: 3008
       Timeout: 30
       Tracing: Active
-      Policies:
+       Policies:
         - AWSXrayWriteOnlyAccess
         - Statement:
             - Effect: Allow
