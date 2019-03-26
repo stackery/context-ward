@@ -183,6 +183,7 @@ Resources:
             StackeryName: Every 10 minutes
     Metadata:
       StackeryName: stopNeo4j
+    Condition: stopNeo4jCreateNewResource
   neo4jDockerTask:
     Type: AWS::ECS::TaskDefinition
     Properties:
@@ -298,7 +299,10 @@ Resources:
               x-amazon-apigateway-integration:
                 httpMethod: POST
                 type: aws_proxy
-                uri: !Sub arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${stopNeo4j.Arn}/invocations
+                uri: !If
+                  - stopNeo4jUseExistingResource
+                  - !Sub arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${stopNeo4j.ArnExistingResource}/invocations
+                  - !Sub arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${stopNeo4j.Arn}/invocations
               responses: {}
           /status:
             get:
@@ -308,6 +312,13 @@ Resources:
                 uri: !Sub arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${status.Arn}/invocations
               responses: {}
       EndpointConfiguration: REGIONAL
+  stopNeo4jExistingResource:
+    Type: Custom::StackeryExistingResource
+    Properties:
+      ServiceToken: !Sub arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:stackery-agent-commander
+      Type: function
+      Data: null
+    Condition: stopNeo4jUseExistingResource
 Parameters:
   StackeryStackTagName:
     Type: String
@@ -321,3 +332,9 @@ Parameters:
   StackeryEnvironmentAPIGatewayStageName:
     Type: String
     Description: Environment name used for API Gateway Stage names (injected by Stackery at deployment time)
+Conditions:
+  stopNeo4jCreateNewResource: !Equals
+    - 'false'
+    - arn:aws:lambda:<Region>:<AWS Account ID>:function:<Function Name>
+  stopNeo4jUseExistingResource: !Not
+    - Condition: stopNeo4jCreateNewResource
