@@ -88,7 +88,7 @@ Resources:
             RestApiId: !Ref manageFargateApi
       Environment:
         Variables:
-          DOCKER_TASK_ARN: !Ref neo4jDockerTask
+          DOCKER_TASK_ARN: !Ref EnvConfigfooAsString
           DOCKER_TASK_SUBNETS: !Join
             - ','
             - !Ref DefaultVPCSubnets
@@ -321,3 +321,9 @@ Parameters:
   StackeryEnvironmentAPIGatewayStageName:
     Type: String
     Description: Environment name used for API Gateway Stage names (injected by Stackery at deployment time)
+  EnvConfigfooAsString:
+    Type: AWS::SSM::Parameter::Value<String>
+    Default: /<EnvironmentName>/foo
+Metadata:
+  EnvConfigParameters:
+    EnvConfigfooAsString: foo
